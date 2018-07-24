@@ -1,0 +1,42 @@
+<br/>
+<br/>
+<center>
+	<h1 class="coral-Heading coral-Heading--1">VBz Log Tail</h1>
+	<coral-alert id="lognameLoadAlert" size="L" variant="warning">
+		<coral-alert-header>Please Wait!</coral-alert-header>
+		<coral-alert-content>Fetching available log names.</coral-alert-content>
+	</coral-alert>
+	<div class="main" style="margin:3% 15%;">
+		<coral-accordion>
+			<coral-accordion-item>
+				<coral-accordion-item-label style="float: left;margin-left: 20px;font-size: 16px;">How To Use!</coral-accordion-item-label>
+				<coral-accordion-item-content>
+					<ul style="text-align:left;font-size:14px;font-family: adobe-clean,Helvetica,Arial,sans-serif;">
+						<li>This is a quick "Log Tail" interface relying on optimized, light weight, random file access capability based on data size.</li>
+						<li>The first dropdown gets auto-populated with available log names on current server for current date on page load.</li>
+						<li>The Slider is actually amount of log data (from end) that should be pulled, so value of 30 would mean last 30kbs of data would be fetched. This ranges from 20kb  to 1 MB of data.</li>
+					</ul>
+				</coral-accordion-item-content>
+			</coral-accordion-item>
+		</coral-accordion>
+		<br/>
+		<div class="logForm" style="background:white;padding: 2% 5%">
+			<span style="margin: 1% 3%">
+				<coral-select id="lognames" name="logname" placeholder="Choose Log Name" required></coral-select>
+			</span>
+			<span style="margin: 1% 3%">
+				<coral-slider id="datasize" step="50" min="0" max="1000" value="0" filled tooltips></coral-slider>
+			</span>
+			<span style="margin: 1% 10%">
+				<button id="getLogs" is="coral-button" variant="primary" icon="printPreview" iconsize="S">
+GetLogs
+</button>
+			</span>
+		</div>
+		<coral-alert id="getLogsInfo" style="display:none;">
+			<coral-alert-header>Processing</coral-alert-header>
+			<coral-alert-content>The Logs Will Be Fetched Soon</coral-alert-content>
+		</coral-alert>
+		<div id="logContainer" style="display:none;text-align:left;height:400px;overflow:auto;border-radius: .25rem;border: .0625rem solid #e9e9e9;background-color: #f0f0f0;margin-top:10px;padding: 5px;"></div>
+	</div>
+</center>
