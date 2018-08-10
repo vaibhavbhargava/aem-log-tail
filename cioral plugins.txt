@@ -1,0 +1,67 @@
+(function(document, $, Coral) {
+
+    "use strict";
+
+    $(document).on("dialog-ready", function(e) {
+        extendDynamicShowHideForTabs();
+    });
+
+    function extendDynamicShowHideForTabs() {
+        $("coral-dialog coral-tab").each(function() {
+            var concernedTabPanel = $("#" + $(this).attr("aria-controls")).find("coral-panel-content > div");
+            if (concernedTabPanel.hasClass("hide")) {
+                $(this).addClass("hide");
+            }
+            var concernedTabPanelshowHideAttr = concernedTabPanel.attr("data-showhidetargetvalue");
+            if (concernedTabPanelshowHideAttr !== undefined) {
+                $(this).attr("data-showhidetargetvalue", concernedTabPanelshowHideAttr);
+
+                var classList = concernedTabPanel.prop("classList");
+                var showhideControllerClass;
+                $.each(classList, function(index, value) {
+                    if (value.indexOf("showhide-target") > 1) {
+                        showhideControllerClass = value;
+                        return false;
+                    }
+                });
+
+                $(this).addClass(showhideControllerClass);
+            }
+        })
+    }
+
+})(document, Granite.$, Coral); 
+
+
+(function(document, $, Coral) {
+    "use strict";
+
+    $(document).on("dialog-ready", function(e) {
+        $("coral-dialog coral-checkbox.cq-dialog-checkbox-showhide", e.target).each(function(i, element) {
+            var target = $(element).data("cqDialogCheckboxShowhideTarget");
+            if (target) {
+                Coral.commons.ready(element, function(component) {
+                    showHide(component, target);
+                    component.on("change", function() {
+                        showHide(component, target);
+                    });
+                });
+            }
+        });
+        showHide($(".cq-dialog-checkbox-showhide", e.target));
+    });
+
+    function showHide(component, target) {
+        var value = component.checked;
+
+        //specific handling for fields.
+        $(target).closest(".coral-Form-fieldwrapper").addClass("hide");
+        $(target).filter("[data-showhidetargetvalue='" + value + "']").closest(".coral-Form-fieldwrapper").removeClass("hide");
+
+
+        $(target).not(".hide").addClass("hide");
+        $(target).filter("[data-showhidetargetvalue='" + value + "']").removeClass("hide");
+    }
+
+})(document, Granite.$, Coral);
+

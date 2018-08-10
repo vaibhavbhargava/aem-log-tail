@@ -1,0 +1,804 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="nt:unstructured"
+    jcr:title="Interest Rates"
+    sling:resourceType="cq/gui/components/authoring/dialog"
+    extraClientlibs="[irm.authoring]">
+    <content
+        granite:class="irmContainer"
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="granite/ui/components/coral/foundation/container">
+        <items jcr:primaryType="nt:unstructured">
+            <tabs
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/coral/foundation/tabs">
+                <items jcr:primaryType="nt:unstructured">
+                    <tab1
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Configurations"
+                        sling:resourceType="granite/ui/components/coral/foundation/fixedcolumns">
+                        <items jcr:primaryType="nt:unstructured">
+                            <column
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/container">
+                                <items jcr:primaryType="nt:unstructured">
+                                    <productcode
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                                        fieldDescription="This is the produce code to retrieve rates from Interest Rates Manager. Example: &quot;daa&quot; for Everday Options, &quot;eoption&quot; for eOptions."
+                                        fieldLabel="Product Code"
+                                        name="./productcode">
+                                        <items jcr:primaryType="nt:unstructured"/>
+                                    </productcode>
+                                    <ratestype
+                                        granite:class="cq-dialog-dropdown-showhide"
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                                        emptyOption="full"
+                                        fieldDescription="Rates type, i.e. full table or single rate"
+                                        fieldLabel="Rate Type"
+                                        name="./ratestype"
+                                        value="full">
+                                        <items jcr:primaryType="nt:unstructured">
+                                            <full
+                                                jcr:primaryType="nt:unstructured"
+                                                text="Full Table"
+                                                value="full"/>
+                                            <single
+                                                jcr:primaryType="nt:unstructured"
+                                                text="Single Rate"
+                                                value="single"/>
+                                        </items>
+                                        <granite:data
+                                            jcr:primaryType="nt:unstructured"
+                                            cq-dialog-dropdown-showhide-target=".ratestype-showhide-target"/>
+                                    </ratestype>
+                                    <fulltable
+                                        granite:class="hide ratestype-showhide-target foundation-layout-util-vmargin"
+                                        jcr:primaryType="nt:unstructured"
+                                        jcr:title="Rate Table Configuration"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/fieldset">
+                                        <items jcr:primaryType="nt:unstructured">
+                                            <horizontal_scroll
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                                fieldDescription="The table will not collapse when meeting its minimum width but will become horizontally scrollable instead."
+                                                fieldLabel="Horizontal Scroll"
+                                                name="./horizontal_scroll"
+                                                text="Horizontal Scroll"
+                                                uncheckedValue="false"
+                                                value="true"/>
+                                            <shadow
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                                fieldDescription="Check this to disable shadow on scroll."
+                                                fieldLabel="Disable shadow"
+                                                name="./shadow"
+                                                text="Disable shadow"
+                                                uncheckedValue="false"
+                                                value="true"/>
+                                            <header_text
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                                fieldLabel="Table Header Text No Wrap"
+                                                name="./header_text_no_wrap"
+                                                text="Table Header Text No Wrap"
+                                                uncheckedValue="false"
+                                                value="true"/>
+                                            <cell_text
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                                fieldLabel="Table Cell Text No Wrap"
+                                                name="./cell_text_no_wrap"
+                                                text="Table Cell Text No Wrap"
+                                                uncheckedValue="false"
+                                                value="true"/>
+                                            <name
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                fieldDescription="Leave it blank to use the name provided by Interest Rate Manager."
+                                                fieldLabel="Name"
+                                                name="./ratename"/>
+                                            <description/>
+                                        </items>
+                                        <granite:data
+                                            jcr:primaryType="nt:unstructured"
+                                            showhidetargetvalue="full"/>
+                                    </fulltable>
+                                    <singlerate
+                                        granite:class="hide ratestype-showhide-target foundation-layout-util-vmargin"
+                                        jcr:primaryType="nt:unstructured"
+                                        jcr:title="Single Rate Configuration"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/fieldset">
+                                        <items jcr:primaryType="nt:unstructured">
+                                            <row
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                                                fieldLabel="Row"
+                                                name="./rowid">
+                                                <items jcr:primaryType="nt:unstructured"/>
+                                            </row>
+                                            <rowheadingpreview
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="/libs/granite/ui/components/coral/foundation/form/textfield"
+                                                disabled="{Boolean}true"
+                                                fieldDescription="This is the row heading to be disaplyed if enabled"
+                                                fieldLabel="Row Heading"
+                                                name="./rowHeading"/>
+                                            <preview
+                                                jcr:primaryType="nt:unstructured"
+                                                jcr:title="Preview Column"
+                                                sling:resourceType="granite/ui/components/coral/foundation/form/fieldset">
+                                                <items jcr:primaryType="nt:unstructured">
+                                                    <column
+                                                        jcr:primaryType="nt:unstructured"
+                                                        sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                                                        fieldDescription="Populates rate short and long description in case their respective columns are not selected."
+                                                        fieldLabel="Rate Generic Column"
+                                                        name="./columnid">
+                                                        <items jcr:primaryType="nt:unstructured"/>
+                                                    </column>
+                                                    <ratepreview
+                                                        jcr:primaryType="nt:unstructured"
+                                                        sling:resourceType="/libs/granite/ui/components/coral/foundation/form/textfield"
+                                                        disabled="{Boolean}true"
+                                                        fieldDescription="This is the single rate return from IRM."
+                                                        fieldLabel="Rate Preview"
+                                                        name="./ratepreview"/>
+                                                    <columnshort
+                                                        jcr:primaryType="nt:unstructured"
+                                                        sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                                                        fieldLabel="Short Disclaimer Column"
+                                                        name="./columnidshort">
+                                                        <items jcr:primaryType="nt:unstructured"/>
+                                                    </columnshort>
+                                                    <shortdiscpreview
+                                                        jcr:primaryType="nt:unstructured"
+                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textarea"
+                                                        disabled="{Boolean}true"
+                                                        fieldDescription="This is the note returned from IRM."
+                                                        fieldLabel="Short Disclaimer Preview"
+                                                        name="./shortdisclaimerpreview"/>
+                                                    <columnlong
+                                                        jcr:primaryType="nt:unstructured"
+                                                        sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                                                        fieldLabel="Long Disclaimer Column"
+                                                        name="./columnidlong">
+                                                        <items jcr:primaryType="nt:unstructured"/>
+                                                    </columnlong>
+                                                    <disclaimer
+                                                        jcr:primaryType="nt:unstructured"
+                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textarea"
+                                                        disabled="{Boolean}true"
+                                                        fieldDescription="This is the long form disclaimer returned from IRM."
+                                                        fieldLabel="Long Form Disclaimer Preview"
+                                                        name="./disclaimerpreview"/>
+                                                </items>
+                                            </preview>
+                                            <showWrapper
+                                                jcr:primaryType="nt:unstructured"
+                                                jcr:title="What to Show"
+                                                sling:resourceType="granite/ui/components/coral/foundation/accordion"
+                                                margin="{Boolean}true">
+                                                <items jcr:primaryType="nt:unstructured">
+                                                    <show
+                                                        jcr:primaryType="nt:unstructured"
+                                                        jcr:title="What to Show"
+                                                        sling:resourceType="granite/ui/components/coral/foundation/form/fieldset">
+                                                        <items jcr:primaryType="nt:unstructured">
+                                                            <show_heading
+                                                                granite:class="cq-dialog-checkbox-showhide"
+                                                                jcr:primaryType="nt:unstructured"
+                                                                sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                                                fieldLabel="Show Row Heading"
+                                                                name="./showHeading"
+                                                                text="Show Row Heading"
+                                                                uncheckedValue="false"
+                                                                value="true">
+                                                                <granite:data
+                                                                    jcr:primaryType="nt:unstructured"
+                                                                    cq-dialog-checkbox-showhide-target=".rateheading-showhide-target"/>
+                                                            </show_heading>
+                                                            <show_rate
+                                                                granite:class="cq-dialog-checkbox-showhide"
+                                                                jcr:primaryType="nt:unstructured"
+                                                                sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                                                fieldLabel="Show Rate"
+                                                                name="./show_rate"
+                                                                text="Show Rate"
+                                                                uncheckedValue="false"
+                                                                value="true">
+                                                                <granite:data
+                                                                    jcr:primaryType="nt:unstructured"
+                                                                    cq-dialog-checkbox-showhide-target=".rate-showhide-target"/>
+                                                            </show_rate>
+                                                            <show_ratesymbol
+                                                                jcr:primaryType="nt:unstructured"
+                                                                sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                                                fieldDescription="Select this checkbox to show the IRM Hero rate and symbol returned from the API i.e. show the hero rate as it is returned from the API. For e.g. xx% p.a.^^"
+                                                                fieldLabel="Show Rate Symbol(from API)"
+                                                                name="./show_ratesymbol"
+                                                                text="Show Rate Symbol(from API)"
+                                                                uncheckedValue="false"
+                                                                value="true"/>
+                                                            <show_short_disclaimer
+                                                                granite:class="cq-dialog-checkbox-showhide"
+                                                                jcr:primaryType="nt:unstructured"
+                                                                sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                                                fieldLabel="Show Short Form Disclaimer"
+                                                                name="./show_short_disclaimer"
+                                                                text="Show Short Form Disclaimer"
+                                                                uncheckedValue="false"
+                                                                value="true">
+                                                                <granite:data
+                                                                    jcr:primaryType="nt:unstructured"
+                                                                    cq-dialog-checkbox-showhide-target=".shortdisc-showhide-target"/>
+                                                            </show_short_disclaimer>
+                                                            <show_disclaimer
+                                                                granite:class="cq-dialog-checkbox-showhide"
+                                                                jcr:primaryType="nt:unstructured"
+                                                                sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                                                fieldLabel="Show Long Form Disclaimer"
+                                                                name="./show_disclaimer"
+                                                                text="Show Long Form Disclaimer"
+                                                                uncheckedValue="false"
+                                                                value="true">
+                                                                <granite:data
+                                                                    jcr:primaryType="nt:unstructured"
+                                                                    cq-dialog-checkbox-showhide-target=".longdisc-showhide-target"/>
+                                                            </show_disclaimer>
+                                                            <spacing
+                                                                jcr:primaryType="nt:unstructured"
+                                                                sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                                                                emptyText="select"
+                                                                fieldDescription="Select spacing from the list, the list is authorable"
+                                                                fieldLabel="Spacing"
+                                                                name="./spacing">
+                                                                <datasource
+                                                                    jcr:primaryType="nt:unstructured"
+                                                                    sling:resourceType="acs-commons/components/utilities/genericlist/datasource"
+                                                                    path="/etc/suncorp/lists/spacing"/>
+                                                            </spacing>
+                                                        </items>
+                                                    </show>
+                                                </items>
+                                            </showWrapper>
+                                        </items>
+                                        <granite:data
+                                            jcr:primaryType="nt:unstructured"
+                                            showhidetargetvalue="single"/>
+                                    </singlerate>
+                                </items>
+                            </column>
+                        </items>
+                    </tab1>
+                    <tab2
+                        granite:class="hide  ratestype-showhide-target foundation-layout-util-vmargin"
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Advanced"
+                        sling:resourceType="granite/ui/components/coral/foundation/fixedcolumns">
+                        <items jcr:primaryType="nt:unstructured">
+                            <column
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/container">
+                                <items jcr:primaryType="nt:unstructured">
+                                    <template
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                                        fieldLabel="Template"
+                                        name="./ratetemplate"
+                                        value="large">
+                                        <items jcr:primaryType="nt:unstructured">
+                                            <large
+                                                jcr:primaryType="nt:unstructured"
+                                                text="Large"
+                                                value="large"/>
+                                            <medium
+                                                jcr:primaryType="nt:unstructured"
+                                                text="Medium"
+                                                value="medium"/>
+                                            <small
+                                                jcr:primaryType="nt:unstructured"
+                                                text="Small"
+                                                value="small"/>
+                                            <extra_small
+                                                jcr:primaryType="nt:unstructured"
+                                                text="Extra Small"
+                                                value="extraSmall"/>
+                                        </items>
+                                    </template>
+                                    <rowHeadingcolor
+                                        granite:class="hide rateheading-showhide-target foundation-layout-util-vmargin"
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                                        emptyText="select"
+                                        fieldDescription="Select the Row Heading Text Colour"
+                                        fieldLabel="Row Heading Text Colour"
+                                        name="./rowTextColor">
+                                        <granite:data
+                                            jcr:primaryType="nt:unstructured"
+                                            showhidetargetvalue="true"/>
+                                        <datasource
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="acs-commons/components/utilities/genericlist/datasource"
+                                            path="/etc/suncorp/lists/campaign-colors"/>
+                                    </rowHeadingcolor>
+                                    <rowheadingfontsize
+                                        granite:class="hide rateheading-showhide-target foundation-layout-util-vmargin"
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/numberfield"
+                                        fieldDescription="Override the template induced font size for this text by putting required font size in px here."
+                                        fieldLabel="Row Heading Text Font Size"
+                                        name="./rowFontSize">
+                                        <granite:data
+                                            jcr:primaryType="nt:unstructured"
+                                            showhidetargetvalue="true"/>
+                                    </rowheadingfontsize>
+                                    <ratecolor
+                                        granite:class="hide rate-showhide-target foundation-layout-util-vmargin"
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                                        emptyText="select"
+                                        fieldDescription="Select the Rate Text Colour"
+                                        fieldLabel="Rate Text Colour"
+                                        name="./rateTextColor">
+                                        <granite:data
+                                            jcr:primaryType="nt:unstructured"
+                                            showhidetargetvalue="true"/>
+                                        <datasource
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="acs-commons/components/utilities/genericlist/datasource"
+                                            path="/etc/suncorp/lists/campaign-colors"/>
+                                    </ratecolor>
+                                    <ratefontsize
+                                        granite:class="hide rate-showhide-target foundation-layout-util-vmargin"
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/numberfield"
+                                        fieldDescription="Override the template induced font size for this text by putting required font size in px here."
+                                        fieldLabel="Rate Text Font Size"
+                                        name="./rateFontSize">
+                                        <granite:data
+                                            jcr:primaryType="nt:unstructured"
+                                            showhidetargetvalue="true"/>
+                                    </ratefontsize>
+                                    <shortdisclaimercolor
+                                        granite:class="hide shortdisc-showhide-target foundation-layout-util-vmargin"
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                                        emptyText="select"
+                                        fieldDescription="Select the Short Form Disclaimer Text Colour"
+                                        fieldLabel="Short Form Disclaimer Text Colour"
+                                        name="./shortDisclaimerTextColor">
+                                        <granite:data
+                                            jcr:primaryType="nt:unstructured"
+                                            showhidetargetvalue="true"/>
+                                        <datasource
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="acs-commons/components/utilities/genericlist/datasource"
+                                            path="/etc/suncorp/lists/campaign-colors"/>
+                                    </shortdisclaimercolor>
+                                    <shortdiclaimersize
+                                        granite:class="hide shortdisc-showhide-target foundation-layout-util-vmargin"
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/numberfield"
+                                        fieldDescription="Override the template induced font size for this text by putting required font size in px here."
+                                        fieldLabel="Short Disclaimer Font Size"
+                                        name="./sdFontSize">
+                                        <granite:data
+                                            jcr:primaryType="nt:unstructured"
+                                            showhidetargetvalue="true"/>
+                                    </shortdiclaimersize>
+                                    <removeopacity
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                        fieldLabel="Remove Opacity"
+                                        name="./removeOpacity"
+                                        text="Remove Opacity"
+                                        uncheckedValue="false"
+                                        value="true"/>
+                                    <longdisclaimeroptionswrapper
+                                        granite:class="hide longdisc-showhide-target foundation-layout-util-vmargin"
+                                        jcr:primaryType="nt:unstructured"
+                                        jcr:title="Long Disclaimer Options"
+                                        sling:resourceType="granite/ui/components/coral/foundation/accordion"
+                                        margin="{Boolean}true">
+                                        <items jcr:primaryType="nt:unstructured">
+                                            <longdisclaimeroptions
+                                                jcr:primaryType="nt:unstructured"
+                                                jcr:title="Long Disclaimer Options"
+                                                sling:resourceType="granite/ui/components/coral/foundation/form/fieldset">
+                                                <items jcr:primaryType="nt:unstructured">
+                                                    <disclaimercolor
+                                                        jcr:primaryType="nt:unstructured"
+                                                        sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                                                        fieldDescription="Select the Long Form Disclaimer Text Colour"
+                                                        fieldLabel="Long Form Disclaimer Text Colour"
+                                                        name="./disclaimerTextColor">
+                                                        <datasource
+                                                            jcr:primaryType="nt:unstructured"
+                                                            sling:resourceType="acs-commons/components/utilities/genericlist/datasource"
+                                                            path="/etc/suncorp/lists/campaign-colors"/>
+                                                    </disclaimercolor>
+                                                    <longdisclaimertsize
+                                                        jcr:primaryType="nt:unstructured"
+                                                        sling:resourceType="granite/ui/components/coral/foundation/form/numberfield"
+                                                        fieldDescription="Override the template induced font size for this text by putting required font size in px here."
+                                                        fieldLabel="Long Disclaimer Font Size"
+                                                        name="./ldFontSize"/>
+                                                    <disclaimer_alignment
+                                                        jcr:primaryType="nt:unstructured"
+                                                        sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                                                        fieldDescription="Long Form Disclaimer Alignment, i.e. Left, center, or right."
+                                                        fieldLabel="Long Form Disclaimer Alignment"
+                                                        name="./disclaimeralignment"
+                                                        value="sg-u-textLeft">
+                                                        <items jcr:primaryType="nt:unstructured">
+                                                            <Left
+                                                                jcr:primaryType="nt:unstructured"
+                                                                text="Left"
+                                                                value="sg-u-textLeft"/>
+                                                            <Center
+                                                                jcr:primaryType="nt:unstructured"
+                                                                text="Center"
+                                                                value="sg-u-textCenter"/>
+                                                            <Right
+                                                                jcr:primaryType="nt:unstructured"
+                                                                text="Right"
+                                                                value="sg-u-textRight"/>
+                                                        </items>
+                                                    </disclaimer_alignment>
+                                                    <disclaimer_prefix
+                                                        jcr:primaryType="nt:unstructured"
+                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                        fieldDescription="(Optional) This text will appear in the beginning of the disclaimer."
+                                                        fieldLabel="Long Form Disclaimer Prefix"
+                                                        name="./disclaimerprefix"/>
+                                                    <disclaimer_suffix
+                                                        jcr:primaryType="nt:unstructured"
+                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                        fieldDescription="(Optional) This text will appear in the end of the disclaimer."
+                                                        fieldLabel="Long Form Disclaimer Suffix"
+                                                        name="./disclaimersuffix"/>
+                                                </items>
+                                            </longdisclaimeroptions>
+                                        </items>
+                                        <granite:data
+                                            jcr:primaryType="nt:unstructured"
+                                            showhidetargetvalue="true"/>
+                                    </longdisclaimeroptionswrapper>
+                                    <additionalwrapper
+                                        jcr:primaryType="nt:unstructured"
+                                        jcr:title="Additional Configuration"
+                                        sling:resourceType="granite/ui/components/coral/foundation/accordion"
+                                        margin="{Boolean}true">
+                                        <items jcr:primaryType="nt:unstructured">
+                                            <additional
+                                                jcr:primaryType="nt:unstructured"
+                                                jcr:title="Additional Configuration"
+                                                sling:resourceType="granite/ui/components/coral/foundation/form/fieldset">
+                                                <items jcr:primaryType="nt:unstructured">
+                                                    <additionalsymbol
+                                                        jcr:primaryType="nt:unstructured"
+                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                        fieldDescription="The symbol will be displayed after the text, e.g. *^"
+                                                        fieldLabel="Additional Rate Symbol"
+                                                        name="./ratesymbol"/>
+                                                    <textWrapper
+                                                        jcr:primaryType="nt:unstructured"
+                                                        sling:resourceType="granite/ui/components/coral/foundation/accordion"
+                                                        margin="{Boolean}true"
+                                                        variant="quiet">
+                                                        <items jcr:primaryType="nt:unstructured">
+                                                            <upperText
+                                                                jcr:primaryType="nt:unstructured"
+                                                                jcr:title="Upper Text"
+                                                                sling:resourceType="granite/ui/components/coral/foundation/form/fieldset">
+                                                                <items jcr:primaryType="nt:unstructured">
+                                                                    <uppertextsymbol
+                                                                        jcr:primaryType="nt:unstructured"
+                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                                        fieldDescription="The symbol will be displayed after the text, e.g. *^"
+                                                                        fieldLabel="Upper Text End Symbol"
+                                                                        name="./uppersymbol"/>
+                                                                    <uppertextcolor
+                                                                        jcr:primaryType="nt:unstructured"
+                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                                                                        emptyText="select"
+                                                                        fieldDescription="Select the Upper Text Colour"
+                                                                        fieldLabel="Upper Text Colour"
+                                                                        name="./upperTextColor">
+                                                                        <datasource
+                                                                            jcr:primaryType="nt:unstructured"
+                                                                            sling:resourceType="acs-commons/components/utilities/genericlist/datasource"
+                                                                            path="/etc/suncorp/lists/campaign-colors"/>
+                                                                    </uppertextcolor>
+                                                                    <upperextfontsize
+                                                                        jcr:primaryType="nt:unstructured"
+                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/numberfield"
+                                                                        fieldDescription="Override the template induced font size for this text by putting required font size in px here."
+                                                                        fieldLabel="Upper Text Font Size"
+                                                                        name="./upperFontSize"/>
+                                                                </items>
+                                                            </upperText>
+                                                            <lowerText
+                                                                jcr:primaryType="nt:unstructured"
+                                                                jcr:title="Lower Text"
+                                                                sling:resourceType="granite/ui/components/coral/foundation/form/fieldset">
+                                                                <items jcr:primaryType="nt:unstructured">
+                                                                    <text
+                                                                        jcr:primaryType="nt:unstructured"
+                                                                        sling:resourceType="cq/gui/components/authoring/dialog/richtext"
+                                                                        fieldDescription="(Optional) This text will appear under the rate."
+                                                                        fieldLabel="Lower Text"
+                                                                        name="./lowertext"
+                                                                        useFixedInlineToolbar="{Boolean}true">
+                                                                        <uiSettings jcr:primaryType="nt:unstructured">
+                                                                            <cui jcr:primaryType="nt:unstructured">
+                                                                                <inline
+                                                                                    jcr:primaryType="nt:unstructured"
+                                                                                    toolbar="[format#bold,format#italic,format#underline,#justify,#lists,links#modifylink,links#unlink,#paraformat]">
+                                                                                    <popovers jcr:primaryType="nt:unstructured">
+                                                                                        <justify
+                                                                                            jcr:primaryType="nt:unstructured"
+                                                                                            items="[justify#justifyleft,justify#justifycenter,justify#justifyright]"
+                                                                                            ref="justify"/>
+                                                                                        <lists
+                                                                                            jcr:primaryType="nt:unstructured"
+                                                                                            items="[lists#unordered,lists#ordered,lists#outdent,lists#indent]"
+                                                                                            ref="lists"/>
+                                                                                        <paraformat
+                                                                                            jcr:primaryType="nt:unstructured"
+                                                                                            items="paraformat:getFormats:paraformat-pulldown"
+                                                                                            ref="paraformat"/>
+                                                                                    </popovers>
+                                                                                </inline>
+                                                                                <dialogFullScreen
+                                                                                    jcr:primaryType="nt:unstructured"
+                                                                                    toolbar="[format#bold,format#italic,format#underline,justify#justifyleft,justify#justifycenter,justify#justifyright,lists#unordered,lists#ordered,lists#outdent,lists#indent,links#modifylink,links#unlink,table#createoredit,#paraformat,image#imageProps]">
+                                                                                    <popovers jcr:primaryType="nt:unstructured">
+                                                                                        <paraformat
+                                                                                            jcr:primaryType="nt:unstructured"
+                                                                                            items="paraformat:getFormats:paraformat-pulldown"
+                                                                                            ref="paraformat"/>
+                                                                                    </popovers>
+                                                                                </dialogFullScreen>
+                                                                                <tableEditOptions
+                                                                                    jcr:primaryType="nt:unstructured"
+                                                                                    toolbar="[table#insertcolumn-before,table#insertcolumn-after,table#removecolumn,-,table#insertrow-before,table#insertrow-after,table#removerow,-,table#mergecells-right,table#mergecells-down,table#mergecells,table#splitcell-horizontal,table#splitcell-vertical,-,table#selectrow,table#selectcolumn,-,table#ensureparagraph,-,table#modifytableandcell,table#removetable,-,undo#undo,undo#redo,-,table#exitTableEditing,-]"/>
+                                                                            </cui>
+                                                                        </uiSettings>
+                                                                        <rtePlugins jcr:primaryType="nt:unstructured">
+                                                                            <format
+                                                                                jcr:primaryType="nt:unstructured"
+                                                                                features="*"/>
+                                                                            <justify
+                                                                                jcr:primaryType="nt:unstructured"
+                                                                                features="*"/>
+                                                                            <lists
+                                                                                jcr:primaryType="nt:unstructured"
+                                                                                features="*"/>
+                                                                            <paraformat
+                                                                                jcr:primaryType="nt:unstructured"
+                                                                                features="*"/>
+                                                                            <links
+                                                                                jcr:primaryType="nt:unstructured"
+                                                                                features="*"/>
+                                                                            <table
+                                                                                jcr:primaryType="nt:unstructured"
+                                                                                features="-">
+                                                                                <hiddenHeaderConfig
+                                                                                    jcr:primaryType="nt:unstructured"
+                                                                                    hiddenHeaderClassName="cq-wcm-foundation-aria-visuallyhidden"
+                                                                                    hiddenHeaderEditingCSS="coral-RichText-hiddenHeader--editing"/>
+                                                                            </table>
+                                                                        </rtePlugins>
+                                                                    </text>
+                                                                    <lowertextsymbol
+                                                                        jcr:primaryType="nt:unstructured"
+                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                                        fieldDescription="The symbol will be displayed after the text, e.g. *^"
+                                                                        fieldLabel="Lower Text End Symbol"
+                                                                        name="./lowersymbol"/>
+                                                                    <lowertextcolor
+                                                                        jcr:primaryType="nt:unstructured"
+                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                                                                        emptyText="select"
+                                                                        fieldDescription="Select the Lower Text Colour"
+                                                                        fieldLabel="Lower Text Colour"
+                                                                        name="./lowerTextColor">
+                                                                        <datasource
+                                                                            jcr:primaryType="nt:unstructured"
+                                                                            sling:resourceType="acs-commons/components/utilities/genericlist/datasource"
+                                                                            path="/etc/suncorp/lists/campaign-colors"/>
+                                                                    </lowertextcolor>
+                                                                    <lowertextfontsize
+                                                                        jcr:primaryType="nt:unstructured"
+                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/numberfield"
+                                                                        fieldDescription="Override the template induced font size for this text by putting required font size in px here."
+                                                                        fieldLabel="Lower Text Font Size"
+                                                                        name="./lowerFontSize"/>
+                                                                </items>
+                                                            </lowerText>
+                                                        </items>
+                                                    </textWrapper>
+                                                </items>
+                                            </additional>
+                                        </items>
+                                    </additionalwrapper>
+                                </items>
+                            </column>
+                        </items>
+                        <granite:data
+                            jcr:primaryType="nt:unstructured"
+                            showhidetargetvalue="single"/>
+                    </tab2>
+                    <tab3
+                        granite:class="hide  ratestype-showhide-target foundation-layout-util-vmargin"
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Circle Style"
+                        sling:resourceType="granite/ui/components/coral/foundation/fixedcolumns">
+                        <items jcr:primaryType="nt:unstructured">
+                            <column
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/container">
+                                <items jcr:primaryType="nt:unstructured">
+                                    <show_circle
+                                        granite:class="cq-dialog-checkbox-showhide"
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                        fieldLabel="Show in circle"
+                                        name="./show_circle"
+                                        text="Show in circle"
+                                        uncheckedValue="false"
+                                        value="true">
+                                        <granite:data
+                                            jcr:primaryType="nt:unstructured"
+                                            cq-dialog-checkbox-showhide-target=".showcircle-showhide-target"/>
+                                    </show_circle>
+                                    <circlefields
+                                        granite:class="hide showcircle-showhide-target foundation-layout-util-vmargin"
+                                        jcr:primaryType="nt:unstructured"
+                                        jcr:title="Circle Metadata"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/fieldset">
+                                        <items jcr:primaryType="nt:unstructured">
+                                            <show_middle
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                                fieldLabel="Show in middle"
+                                                name="./show_middle"
+                                                text="Show in middle"
+                                                uncheckedValue="false"
+                                                value="true"/>
+                                            <backgroundcolor
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                                                emptyText="select"
+                                                fieldLabel="Background Color"
+                                                name="./circleBackgroundColor">
+                                                <datasource
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="acs-commons/components/utilities/genericlist/datasource"
+                                                    path="/etc/suncorp/lists/campaign-colors"/>
+                                            </backgroundcolor>
+                                            <circlewidth
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/coral/foundation/form/numberfield"
+                                                fieldDescription="Override default circle dimension, (in px) this will be applicable for the viewport if its specific data is not provided"
+                                                fieldLabel="Circle Width"
+                                                name="./circleWidth"/>
+                                            <circlepadding
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/coral/foundation/form/numberfield"
+                                                fieldDescription="Add a padding to text in circle to avoid characters going out or coloured circle. (in px) this will be applicable for the viewport if its specific data is not provided"
+                                                fieldLabel="Circle Padding"
+                                                name="./circlePadding"/>
+                                            <viewportconfig
+                                                jcr:primaryType="nt:unstructured"
+                                                jcr:title="Viewport Configuration"
+                                                sling:resourceType="granite/ui/components/coral/foundation/accordion"
+                                                margin="{Boolean}true">
+                                                <items jcr:primaryType="nt:unstructured">
+                                                    <viewportfieldset
+                                                        jcr:primaryType="nt:unstructured"
+                                                        jcr:title="Viewport Configuration"
+                                                        sling:resourceType="granite/ui/components/coral/foundation/accordion"
+                                                        margin="{Boolean}true"
+                                                        variant="quiet">
+                                                        <items jcr:primaryType="nt:unstructured">
+                                                            <desktop
+                                                                jcr:primaryType="nt:unstructured"
+                                                                jcr:title="Desktop (950px and above)"
+                                                                sling:resourceType="granite/ui/components/coral/foundation/form/fieldset">
+                                                                <items jcr:primaryType="nt:unstructured">
+                                                                    <circlewidth
+                                                                        jcr:primaryType="nt:unstructured"
+                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/numberfield"
+                                                                        fieldDescription="Override circle dimension if required, (in px)"
+                                                                        fieldLabel="Circle Width"
+                                                                        name="./dsCircleWidth"/>
+                                                                    <circlepadding
+                                                                        jcr:primaryType="nt:unstructured"
+                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/numberfield"
+                                                                        fieldDescription="Add a padding to text in circle to avoid characters going out or coloured circle. (in px)"
+                                                                        fieldLabel="Circle Padding"
+                                                                        name="./dsCirclePadding"/>
+                                                                </items>
+                                                            </desktop>
+                                                            <large
+                                                                jcr:primaryType="nt:unstructured"
+                                                                jcr:title="Large (700px to 949px)"
+                                                                sling:resourceType="granite/ui/components/coral/foundation/form/fieldset">
+                                                                <items jcr:primaryType="nt:unstructured">
+                                                                    <circlewidth
+                                                                        jcr:primaryType="nt:unstructured"
+                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/numberfield"
+                                                                        fieldDescription="Override circle dimension if required, (in px)"
+                                                                        fieldLabel="Circle Width"
+                                                                        name="./lvCircleWidth"/>
+                                                                    <circlepadding
+                                                                        jcr:primaryType="nt:unstructured"
+                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/numberfield"
+                                                                        fieldDescription="Add a padding to text in circle to avoid characters going out or coloured circle. (in px)"
+                                                                        fieldLabel="Circle Padding"
+                                                                        name="./lvCirclePadding"/>
+                                                                </items>
+                                                            </large>
+                                                            <medium
+                                                                jcr:primaryType="nt:unstructured"
+                                                                jcr:title="Medium (between 501px and 699px)"
+                                                                sling:resourceType="granite/ui/components/coral/foundation/form/fieldset">
+                                                                <items jcr:primaryType="nt:unstructured">
+                                                                    <circlewidth
+                                                                        jcr:primaryType="nt:unstructured"
+                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/numberfield"
+                                                                        fieldDescription="Override circle dimension if required, (in px)"
+                                                                        fieldLabel="Circle Width"
+                                                                        name="./mvCircleWidth"/>
+                                                                    <circlepadding
+                                                                        jcr:primaryType="nt:unstructured"
+                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/numberfield"
+                                                                        fieldDescription="Add a padding to text in circle to avoid characters going out or coloured circle. (in px)"
+                                                                        fieldLabel="Circle Padding"
+                                                                        name="./mvCirclePadding"/>
+                                                                </items>
+                                                            </medium>
+                                                            <small
+                                                                jcr:primaryType="nt:unstructured"
+                                                                jcr:title="Small (500px and below)"
+                                                                sling:resourceType="granite/ui/components/coral/foundation/form/fieldset">
+                                                                <items jcr:primaryType="nt:unstructured">
+                                                                    <circlewidth
+                                                                        jcr:primaryType="nt:unstructured"
+                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/numberfield"
+                                                                        fieldDescription="Override circle dimension if required, (in px)"
+                                                                        fieldLabel="Circle Width"
+                                                                        name="./svCircleWidth"/>
+                                                                    <circlepadding
+                                                                        jcr:primaryType="nt:unstructured"
+                                                                        sling:resourceType="granite/ui/components/coral/foundation/form/numberfield"
+                                                                        fieldDescription="Add a padding to text in circle to avoid characters going out or coloured circle. (in px)"
+                                                                        fieldLabel="Circle Padding"
+                                                                        name="./svCirclePadding"/>
+                                                                </items>
+                                                            </small>
+                                                        </items>
+                                                    </viewportfieldset>
+                                                </items>
+                                            </viewportconfig>
+                                        </items>
+                                        <granite:data
+                                            jcr:primaryType="nt:unstructured"
+                                            showhidetargetvalue="true"/>
+                                    </circlefields>
+                                </items>
+                            </column>
+                        </items>
+                        <granite:data
+                            jcr:primaryType="nt:unstructured"
+                            showhidetargetvalue="single"/>
+                    </tab3>
+                </items>
+            </tabs>
+        </items>
+    </content>
+</jcr:root>
