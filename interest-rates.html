@@ -1,0 +1,95 @@
+
+<div data-sly-use.interestRatesUtil="InterestRates" data-sly-unwrap>
+
+<sly data-sly-test="${properties.show_circle}">
+    <style>
+        #${interestRatesUtil.uniquePath @context='styleString'} {
+            border-radius: 50%;
+            position: relative;
+            display: table-cell;
+            vertical-align: middle;
+            ${properties.circleBackgroundColor ? 'background:{0};' : ''  @context='styleString', format=[properties.circleBackgroundColor]}
+        }
+
+        @media screen and (max-width: 500px) {
+            #${interestRatesUtil.uniquePath @context='styleString'} {
+               ${properties.svCirclePadding ? 'padding:0 {0}px;' : 'padding:0 {1}px;'  @context='styleString', format=[properties.svCirclePadding,properties.circlePadding]}
+               ${properties.svCircleWidth ? 'width:{0}px;height:{0}px;' : 'width:{1}px;height:{1}px;'  @context='styleString', format=[properties.svCircleWidth, properties.circleWidth]}
+            }
+        }
+        @media screen and (min-width: 501px) and (max-width: 699px) {
+            #${interestRatesUtil.uniquePath @context='styleString'} {
+               ${properties.mvCirclePadding ? 'padding:0 {0}px;' : 'padding:0 {1}px;'  @context='styleString', format=[properties.mvCirclePadding,properties.circlePadding]}
+               ${properties.mvCircleWidth ? 'width:{0}px;height:{0}px;' : 'width:{1}px;height:{1}px;'  @context='styleString', format=[properties.mvCircleWidth, properties.circleWidth]}
+            }
+        }
+        
+        @media screen and (min-width: 700px) and (max-width: 949px) {
+            #${interestRatesUtil.uniquePath @context='styleString'} {
+               ${properties.lvCirclePadding ? 'padding:0 {0}px;' : 'padding:0 {1}px;'  @context='styleString', format=[properties.lvCirclePadding,properties.circlePadding]}
+               ${properties.lvCircleWidth ? 'width:{0}px;height:{0}px;' : 'width:{1}px;height:{1}px;'  @context='styleString', format=[properties.lvCircleWidth, properties.circleWidth]}
+            }
+        }
+
+        @media screen and (min-width: 950px) {
+            #${interestRatesUtil.uniquePath @context='styleString'} {
+               ${properties.dsCirclePadding ? 'padding:0 {0}px;' : 'padding:0 {1}px;'  @context='styleString', format=[properties.dsCirclePadding,properties.circlePadding]}
+               ${properties.dsCircleWidth ? 'width:{0}px;height:{0}px;' : 'width:{1}px;height:{1}px;'  @context='styleString', format=[properties.dsCircleWidth, properties.circleWidth]}
+            }
+        }
+
+
+    </style>
+</sly>
+    <!--/* Full rate table */-->
+    <div data-sly-test="${properties.ratestype == 'full'}" data-sly-unwrap>
+        <div class="sun-interest-rates ${properties.ratestype} ${properties.header_text_no_wrap ? 'header_text_nowrap' : ''} ${properties.cell_text_no_wrap ? 'cell_text_nowrap' : ''}" data-sly-test="${properties.productcode}" data-code="${properties.productcode}" data-type="${properties.ratestype}" data-rel-source="${interestRatesUtil.apiURLPath}">
+            <div class="name sg-Type--bold sg-Type--size18 sg-Type--colourDark">${properties.ratename}</div>
+            <div class="sg-Overflow-container ">
+                <div class="sg-Overflow-shadowRight"></div>
+                <div class="sg-Overflow-shadowLeft"></div>
+                <div class="sg-Overflow-shadowTop"></div>
+                <div class="sg-Overflow-shadowBottom"></div>
+                <div class="rate-table ${properties.horizontal_scroll ? 'sg-Table-responsiveScroll' : ''} ${properties.shadow ? '' : 'sg-Overflow js-Overflow'} ">
+                    <div data-sly-test="${properties.productcode}" data-sly-unwrap>
+                        <div class="loading-icon"><i></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="description sg-Type--size12">${properties.description @context='html'}</div>
+        </div>
+    </div> 
+
+    <!--/* Single rate */-->
+    <div data-sly-test="${properties.ratestype == 'single'}" data-sly-unwrap>
+        <div id="${interestRatesUtil.uniquePath}" class="sun-interest-rates ${!properties.show_rate && properties.show_disclaimer ? properties.disclaimeralignment : 'sg-u-textCenter'} ${properties.ratestype} ${properties.ratetemplate} ${!properties.show_rate && properties.show_disclaimer ? 'disclaimer-only' : ''} ${properties.show_circle ? 'irmCircle' : ''}" data-sly-test="${properties.productcode}" data-code="${properties.productcode}" data-type="${properties.ratestype}" data-showratesymbol="${properties.show_ratesymbol}" data-row="${properties.ratestype == 'single' ? properties.rowid : ''}" data-showrowheading="${properties.showHeading?'true':'false'}" data-column="${properties.ratestype == 'single' ? properties.columnid : ''}" data-columnshort="${properties.ratestype == 'single' && properties.columnidshort ? properties.columnidshort : ''}" data-columnlong="${properties.ratestype == 'single' && properties.columnidlong ? properties.columnidlong : ''}" data-rel-source="${interestRatesUtil.apiURLPath}" style="${properties.spacing @context='styleString'}${properties.show_circle && properties.show_middle ? 'text-align:center;' : '' @context='styleString'}">
+
+            <div class="upper-text" style="${properties.upperTextColor ? 'color: {0};' : ''  @context='styleString', format=[properties.upperTextColor]}  ${properties.upperFontSize ? 'font-size:{0}px;' : ''  @context='styleString', format=[properties.upperFontSize]}" data-sly-test="${properties.uppertext}">
+                <sly data-sly-include="base_uppertext.jsp"></sly><sup data-sly-test="${properties.uppersymbol}">${properties.uppersymbol}</sup></div>
+
+            <div class="row-heading" style="${properties.rowTextColor ? 'color: {0};' : ''  @context='styleString', format=[properties.rowTextColor]}  ${properties.rowFontSize ? 'font-size:{0}px;' : ''  @context='styleString', format=[properties.rowFontSize]}" data-sly-test="${properties.showHeading}"></div>
+
+            <div class="single-rate"  data-sly-test="${properties.show_rate}">
+                <span class="rate" style="${properties.rateTextColor ? 'color: {0};' : ''  @context='styleString', format=[properties.rateTextColor]} ${properties.rateFontSize ? 'font-size:{0}px;' : ''  @context='styleString', format=[properties.rateFontSize]}"></span>
+                <span class="pa" style="${properties.rateTextColor ? 'color: {0};' : ''  @context='styleString', format=[properties.rateTextColor]} ${properties.rateFontSize ? 'font-size:{0}px;' : ''  @context='styleString', format=[properties.rateFontSize]}"></span>
+				<span>
+                	<sup class="rateSymb" style="${properties.rateSymbolTextColor ? 'color: {0};' : ''  @context='styleString', format=[properties.rateSymbolTextColor]} ${properties.rateSymbolFontSize ? 'font-size:{0}px;' : ''  @context='styleString', format=[properties.rateSymbolFontSize]}" data-sly-test="${properties.show_ratesymbol}"></sup>
+                	<sup style="${properties.rateSymbolTextColor ? 'color: {0};' : ''  @context='styleString', format=[properties.rateSymbolTextColor]} ${properties.rateSymbolFontSize ? 'font-size:{0}px;' : ''  @context='styleString', format=[properties.rateSymbolFontSize]}" data-sly-test="${properties.ratesymbol}">${properties.ratesymbol}</sup>
+                </span>
+                </div>
+
+            <div class="lower-text" style="${properties.lowerTextColor ? 'color:{0};' : ''  @context='styleString', format=[properties.lowerTextColor]} ${properties.lowerFontSize ? 'font-size:{0}px;' : ''  @context='styleString', format=[properties.lowerFontSize]} ${properties.removeOpacity ? 'opacity:1;' : '' @context='styleString'}" data-sly-test="${properties.lowertext}">
+                <sly data-sly-include="base_lowertext.jsp"></sly><sup data-sly-test="${properties.lowersymbol}">${properties.lowersymbol}</sup></div>
+
+            <div class="rate-disclaimer" style="${properties.shortDisclaimerTextColor ? 'color:{0};' : ''  @context='styleString', format=[properties.shortDisclaimerTextColor]} ${properties.sdFontSize ? 'font-size:{0}px;' : ''  @context='styleString', format=[properties.sdFontSize]}" data-sly-test="${properties.show_short_disclaimer}">
+                <span class="rate-short-disclaimer-inner"></span>
+            </div>
+
+            <div class="rate-disclaimer" style="${properties.disclaimerTextColor ? 'color:{0};' : ''  @context='styleString', format=[properties.disclaimerTextColor]} ${properties.ldFontSize ? 'font-size:{0}px;' : ''  @context='styleString', format=[properties.ldFontSize]}" data-sly-test="${properties.show_disclaimer}">
+                ${!properties.show_rate && properties.show_disclaimer ? properties.disclaimerprefix : '' @context='html'}
+                <span class="rate-disclaimer-inner"></span> ${!properties.show_rate && properties.show_disclaimer ? properties.disclaimersuffix : '' @context='html'}
+            </div>
+        </div>
+    </div>
+
+</div>
