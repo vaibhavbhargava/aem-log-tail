@@ -1,0 +1,201 @@
+package com.suncorp.avaya;
+
+
+import java.io.BufferedReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.InterruptedIOException;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * Suncorp Avaya Listener Implementation.
+ * 
+ * Expects two arguments , first being for port number
+ * and second for stream log name.
+ *  
+ */
+public class SockServerListener extends Thread {
+
+	private final Logger LOGGER = LoggerFactory.getLogger(SockServerListener.class);
+	static String version = "Suncorp Avaya Listener v1.0";
+    private ServerSocket listenPort;
+    static int portArg;
+    static String clientHost;
+    static final String logFileArg = "./avayaListenerStatus.log";
+    static String mainLog = "./avayaStream.log";
+    static PrintWriter logFile = null;
+    /**
+     * main() 
+     *
+     * @throws IllegalArgumentException if port number not valid
+     */
+    public static void main(String args[]) throws Exception {
+    	
+       if ( args.length == 3) {
+            portArg = Integer.parseInt(args[0]);
+            mainLog = args[1];
+
+            System.setProperty("log.name", mainLog);
+            System.setProperty("log.filePath", args[2]);
+            SockServerListener listenerObj=new SockServerListener(true);
+            
+            logFile = new PrintWriter(new FileWriter(logFileArg, true), true);
+            logFile.close();
+            
+        } else {
+        	System.out.println("Three Args are required to run: 1st: port, 2nd: file name and 3rd file absolute path");
+            System.out.println(
+                "\n\t\t\tSockServerListener Version " + version + "\n\n" +
+                "Usage: java [-DnoDataTO=<seconds>] SockServer <port> [log file]"
+                );
+            System.exit(1);
+        }
+
+        if (portArg < 1025 || portArg > 65535)
+            throw new IllegalArgumentException("Invalid port number");
+
+        // registering a shutdown hook via an anonymous inner class
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            public void run() { onTermination(); }
+            });
+
+        SockServerListener myServer = new SockServerListener();
+        myServer.start();
+    }
+
+    /**
+     * (Status) logging method
+     *
+     *Logging status activities separately
+     *
+     * @param message the string to log
+     */
+    public static void logIt(String message) {
+
+        try {
+            logFile = new PrintWriter(new FileWriter(logFileArg, true), true);
+        } catch (IOException ioe) {
+            // do nothing - handled in main()
+        }
+
+        DateFormat myFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+
+        if (clientHost != null) {
+            System.out.println(myFormat.format(new Date()) + " - client: " 
+                + clientHost + ", port: " + portArg + " - " + message);
+            logFile.println(myFormat.format(new Date()) + " - client: " 
+                + clientHost + ", port: " + portArg + " - " + message);
+            
+        } else {
+            System.out.println(myFormat.format(new Date()) + " - SockServer: " 
+                + message);
+            logFile.println(myFormat.format(new Date()) + " - SockServer: " 
+                + message);
+        }
+        logFile.close();
+    }
+
+    /**
+     * Listener on the port
+     */
+    public SockServerListener() {
+        try {
+            listenPort = new ServerSocket(portArg);
+            logIt("listening on port: " + portArg);
+        } catch (IOException ioe) {
+            logIt("ERROR: " + ioe.getMessage());
+            logIt("exiting...");
+            System.exit(1);
+        }
+    }
+    
+    /**
+     * 
+     * @param flag
+     */
+    public SockServerListener(boolean flag) {
+     
+    }
+
+    private void log(String message){
+    	LOGGER.info(message);
+    }
+    
+    /**
+     * listen for a client connection request (thread)
+     */
+    public void run() {
+        Socket clientConn = null;
+        int timeout; 
+        final String TIMEOUT = "90";
+        SockServerListener listenerObj=new SockServerListener(true);
+        while (true) {
+            if (listenPort == null) {
+                logIt("listenPort is null");
+                return;
+            }
+            try {
+                clientConn = listenPort.accept();
+
+                clientHost = clientConn.getInetAddress().getHostAddress();
+                logIt("client connection accepted");
+
+                BufferedReader myRcv = new BufferedReader (
+                    new InputStreamReader(clientConn.getInputStream()));
+
+                timeout = Integer.parseInt(
+                            System.getProperty("noDataTO", TIMEOUT));
+                clientConn.setSoTimeout(timeout*1000);
+
+                boolean eof = false;
+                while (!eof) {
+                    String rcvLine = myRcv.readLine();
+                    if (rcvLine != null){
+                       listenerObj.log(rcvLine);
+                    }
+                    else
+                        eof = true;
+                }
+
+                logIt("connection dropped by client");
+                clientHost = null;
+                logIt("listening on port: " + portArg);
+            } catch (InterruptedIOException ioe) {
+                logIt("IO ERROR: (client) " + ioe.getMessage());
+                logIt("restarting...");
+                
+            } catch (IOException ioe) {
+                logIt("IO ERROR: (client) " + ioe.getMessage());
+                logIt("exiting...");
+                System.exit(1);
+
+            } finally {
+                try {
+                    clientConn.close();
+                } catch (IOException ioe) {
+                    logIt("ERROR: clientConn.close() failed - "
+                             + ioe.getMessage());
+                    logIt("exiting...");
+                    System.exit(1);
+                }
+            }
+        }
+    }
+
+    public static void onTermination() {
+        if(clientHost == null) {
+            logIt("SockServer exited, port: " + portArg);
+        } else {
+            logIt("SockServer exited");
+        }
+    }
+}

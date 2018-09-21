@@ -1,0 +1,58 @@
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectOutputStream;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
+
+/**
+ * This class implements java socket outstreamer.
+ *
+ */
+public class SocketClientExample {
+
+	public static void main(String[] args)
+			throws UnknownHostException, IOException, ClassNotFoundException, InterruptedException {
+
+		int portArg = 0;
+
+		if (args.length == 1)
+			portArg = Integer.parseInt(args[0]);
+		else {
+			System.out.println("Please provide port to listen at, as argument");
+			System.exit(1);
+		}
+
+		InetAddress host = InetAddress.getLocalHost();
+		Socket socket = null;
+		ObjectOutputStream oos = null;
+
+		int i = 0;
+		socket = new Socket(host.getHostName(), portArg);
+
+		oos = new ObjectOutputStream(socket.getOutputStream());
+
+		File f = new File("LifeQueue.txt");
+
+		System.out.println("Sending request to Socket Server");
+		byte[] buf = new byte[8192];
+		try {
+			while (true) {
+				InputStream is = new FileInputStream(f);
+				int c = 0;
+				while ((c = is.read(buf, 0, buf.length)) > 0) {
+					oos.write(buf, 0, c);
+					oos.flush();
+				}
+				is.close();
+			}
+		} finally {
+			System.out.println("File end reached, stopping stream now!");
+			oos.close();
+			socket.close();
+		}
+	}
+}
